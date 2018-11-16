@@ -1,0 +1,7 @@
+-r wsgi-requirements.txt  # Maintain dependencies of the base image.
+
+alembic
+flask-migrate
+flask-sqlalchemy
+psycopg2
+sqlalchemy

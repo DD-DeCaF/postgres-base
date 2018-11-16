@@ -1,0 +1,31 @@
+sudo: required
+language: minimal
+git:
+  depth: 2
+services:
+- docker
+branches:
+  only:
+  - master
+  - devel
+env:
+  global:
+  - IMAGE_REPO=dddecaf/postgres-base
+  - IMAGE_TAG=${TRAVIS_BRANCH}
+  - IMAGE_HASH_TAG=${TRAVIS_COMMIT::12}
+before_install:
+- echo ${DOCKER_PASSWORD} | docker login -u=decaftravis --password-stdin
+install:
+- docker build -t ${IMAGE_REPO}:${IMAGE_HASH_TAG} -t ${IMAGE_REPO}:${IMAGE_TAG} ./alpine
+script:
+- echo "Building image was successful!"
+after_success:
+- docker push ${IMAGE_REPO}:${IMAGE_HASH_TAG}
+- docker push ${IMAGE_REPO}:${IMAGE_TAG}
+notifications:
+  email: false
+  slack:
+    rooms:
+    on_success: change
+    on_failure: change
+    on_pull_requests: false
