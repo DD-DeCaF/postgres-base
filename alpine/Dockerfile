@@ -18,12 +18,17 @@ WORKDIR /opt
 
 COPY sql-requirements.in ./
 
-# `g++` is required for building `psycopg2` but all build dependencies are
-# later removed again to reduce the layer size.
 RUN set -eux \
+    # Install build dependencies and dev headers to make sure we can build
+    # packages that don't provide pre-built wheels from source.
     && apk add --no-cache --virtual .build-deps postgresql-dev g++ \
+    # Compile the dependencies for base + SQL.
     && pip-compile --generate-hashes \
         --output-file sql-requirements.txt sql-requirements.in \
+    # Pre-install the compiled requirements to save some build time for child
+    # images.
     && pip-sync sql-requirements.txt \
-    && rm -rf /root/.cache \
+    # Remove build dependencies to reduce layer size. Note: Intentionally not
+    # removing the pip cache, in order to speed up the pip-compile step for
+    # child images.
     && apk del .build-deps
