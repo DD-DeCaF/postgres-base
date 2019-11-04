@@ -1,7 +1,13 @@
--r wsgi-requirements.txt  # Maintain dependencies of the base image.
+# Maintain exact dependencies of the base image.
+-r base-requirements.txt
 
-alembic
-flask-migrate
-flask-sqlalchemy
+# PostgreSQL adapter
 psycopg2
-sqlalchemy
+
+# Flask ORM layer
+flask-sqlalchemy
+flask-migrate
+
+# DB management tools
+flask-admin
+flask-basicauth
