@@ -22,9 +22,8 @@ RUN set -eux \
     # Install build dependencies to make sure we can build packages that don't
     # provide pre-built wheels from source.
     && apk add --no-cache --virtual .build-deps g++ \
-    # Install postgres dev libraries for psycopg2. Note that these are needed at
-    # runtime.
-    && apk add --no-cache postgresql-dev \
+    # Install dev libraries for psycopg2. Note that these are needed at runtime.
+    && apk add --no-cache postgresql-dev python3-dev \
     # Compile the dependencies for base + SQL.
     && pip-compile --generate-hashes \
         --output-file sql-requirements.txt sql-requirements.in \
