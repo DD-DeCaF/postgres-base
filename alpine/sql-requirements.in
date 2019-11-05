@@ -1,5 +1,5 @@
 # Maintain exact dependencies of the base image.
--r base-requirements.txt
+-r /opt/base-requirements.txt
 
 # PostgreSQL adapter
 psycopg2
