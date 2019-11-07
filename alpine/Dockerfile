@@ -30,7 +30,6 @@ RUN set -eux \
     # Pre-install the compiled requirements to save some build time for child
     # images.
     && pip-sync sql-requirements.txt \
-    # Remove build dependencies and pip cache to reduce layer size. Note that
-    # the pip-tools cache is kept to speed up `pip-compile` in child images.
+    # Remove build dependencies and the pip cache to reduce layer size.
     && apk del .build-deps \
-    && rm -rf /root/.cache/pip
+    && rm -rf /root/.cache

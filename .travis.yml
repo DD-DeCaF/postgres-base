@@ -17,11 +17,13 @@ before_install:
 - echo ${DOCKER_PASSWORD} | docker login -u=decaftravis --password-stdin
 install:
 - docker build -t ${IMAGE_REPO}:${IMAGE_HASH_TAG} -t ${IMAGE_REPO}:${IMAGE_TAG} ./alpine
+- docker build -t ${IMAGE_REPO}:compiler ./compiler
 script:
 - echo "Building image was successful!"
 after_success:
 - docker push ${IMAGE_REPO}:${IMAGE_HASH_TAG}
 - docker push ${IMAGE_REPO}:${IMAGE_TAG}
+- docker push ${IMAGE_REPO}:compiler
 notifications:
   email: false
   slack:
