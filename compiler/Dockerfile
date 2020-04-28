@@ -5,5 +5,5 @@ RUN set -eux \
     # child images that require to build packages from source.
     && apk add build-base postgresql-dev \
     # Re-run pip-compile in order to pre-populate the pip cache.
-    && pip-compile --generate-hashes --output-file /dev/null \
+    && pip-compile --generate-hashes --verbose --output-file /dev/null \
       /opt/sql-requirements.txt

@@ -25,7 +25,7 @@ RUN set -eux \
     # Install postgres libs for psycopg2. Note that these are needed at runtime.
     && apk add --no-cache postgresql \
     # Compile the dependencies for base + SQL.
-    && pip-compile --generate-hashes \
+    && pip-compile --generate-hashes --verbose \
         --output-file sql-requirements.txt sql-requirements.in \
     # Pre-install the compiled requirements to save some build time for child
     # images.
