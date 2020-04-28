@@ -21,7 +21,7 @@ COPY sql-requirements.in ./
 RUN set -eux \
     # Install build dependencies to make sure we can build packages that don't
     # provide pre-built wheels from source.
-    && apk add --no-cache --virtual .build-deps build-base postgresql-dev \
+    && apk add --no-cache --virtual .build-deps build-base libffi-dev postgresql-dev \
     # Install postgres libs for psycopg2. Note that these are needed at runtime.
     && apk add --no-cache postgresql \
     # Compile the dependencies for base + SQL.
