@@ -1,6 +1,5 @@
 os: linux
-language: python
-python: "3.7"
+language: shell
 git:
   depth: 2
 services:
@@ -17,7 +16,6 @@ env:
   - BUILD_DATE=$(date --utc --iso-8601=date)
 before_install:
 - echo ${DOCKER_PASSWORD} | docker login -u=decaftravis --password-stdin
-- pip install tag-spy
 install:
 - make build
 script:
