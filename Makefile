@@ -18,8 +18,7 @@ ALPINE_COMPILER_TAG := alpine-compiler_${BUILD_DATE}_${SHORT_COMMIT}
 
 ## Build the Alpine Linux base image.
 build-alpine:
-	$(eval ALPINE_BASE_TAG := $(shell tag-spy dddecaf/wsgi-base alpine \
-		dk.dtu.biosustain.wsgi-base.alpine.build.timestamp))
+	$(eval ALPINE_BASE_TAG := $(shell docker run --rm dddecaf/tag-spy:latest tag-spy dddecaf/wsgi-base alpine dk.dtu.biosustain.wsgi-base.alpine.build.timestamp))
 	docker pull dddecaf/wsgi-base:$(ALPINE_BASE_TAG)
 	docker build --build-arg BASE_TAG=$(ALPINE_BASE_TAG) \
 		--build-arg BUILD_COMMIT=$(BUILD_COMMIT) \
@@ -30,8 +29,7 @@ build-alpine:
 
 ## Build the Alpine Linux compiler image.
 build-alpine-compiler:
-	$(eval ALPINE_COMPILER_BASE_TAG := $(shell tag-spy dddecaf/wsgi-base \
-		alpine-compiler dk.dtu.biosustain.wsgi-base.alpine-compiler.build.timestamp))
+	$(eval ALPINE_COMPILER_BASE_TAG := $(shell docker run --rm dddecaf/tag-spy:latest tag-spy dddecaf/wsgi-base alpine-compiler dk.dtu.biosustain.wsgi-base.alpine-compiler.build.timestamp))
 	docker build --build-arg BASE_TAG=$(ALPINE_TAG) \
 		--build-arg BUILD_COMMIT=$(BUILD_COMMIT) \
 		--build-arg BUILD_TIMESTAMP=$(BUILD_TIMESTAMP) \
