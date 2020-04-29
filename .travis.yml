@@ -1,5 +1,6 @@
 os: linux
-language: shell
+language: python
+python: "3.7"
 git:
   depth: 2
 services:
@@ -7,24 +8,23 @@ services:
 branches:
   only:
   - master
-  - devel
 env:
   global:
-  - IMAGE_REPO=dddecaf/postgres-base
-  - IMAGE_TAG=${TRAVIS_BRANCH}
-  - DATE_TAG=$(date +%Y-%m-%d)
+  - IMAGE=dddecaf/postgres-base
+  - BUILD_COMMIT=${TRAVIS_COMMIT}
+  - SHORT_COMMIT=${TRAVIS_COMMIT:0:7}
+  - BUILD_TIMESTAMP=$(date --utc --iso-8601=seconds)
+  - BUILD_DATE=$(date --utc --iso-8601=date)
 before_install:
 - echo ${DOCKER_PASSWORD} | docker login -u=decaftravis --password-stdin
+- pip install tag-spy
 install:
-- docker build -t ${IMAGE_REPO}:${DATE_TAG} -t ${IMAGE_REPO}:${IMAGE_TAG} ./alpine
-- docker build -t ${IMAGE_REPO}:compiler -t ${IMAGE_REPO}:compiler-${DATE_TAG} ./compiler
+- make build
 script:
-- echo "Building image was successful!"
+- docker run --rm ${IMAGE}:alpine gunicorn --version
+- docker run --rm ${IMAGE}:alpine-compiler pip-compile --version
 after_success:
-- docker push ${IMAGE_REPO}:${DATE_TAG}
-- docker push ${IMAGE_REPO}:${IMAGE_TAG}
-- docker push ${IMAGE_REPO}:compiler
-- docker push ${IMAGE_REPO}:compiler-${DATE_TAG}
+  - make push
 notifications:
   email: false
   slack:
