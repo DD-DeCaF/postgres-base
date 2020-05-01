@@ -30,8 +30,6 @@ build-alpine:
 
 ## Build the Alpine Linux compiler image.
 build-alpine-compiler:
-	docker pull dddecaf/tag-spy:latest
-	$(eval ALPINE_COMPILER_BASE_TAG := $(shell docker run --rm dddecaf/tag-spy:latest tag-spy dddecaf/wsgi-base alpine-compiler dk.dtu.biosustain.wsgi-base.alpine-compiler.build.timestamp))
 	docker build --build-arg BASE_TAG=$(ALPINE_TAG) \
 		--build-arg BUILD_COMMIT=$(BUILD_COMMIT) \
 		--build-arg BUILD_TIMESTAMP=$(BUILD_TIMESTAMP) \
@@ -41,7 +39,7 @@ build-alpine-compiler:
 
 ## Build all local Docker images.
 build: build-alpine build-alpine-compiler
-	$(info Successfully built all images!)
+	$(info Successfully built all images.)
 
 ## Push the Alpine Linux base image to its registry.
 push-alpine:
@@ -55,7 +53,7 @@ push-alpine-compiler:
 
 ## Push all locally built Docker images to their registries.
 push: push-alpine push-alpine-compiler
-	$(info Successfully pushed all images!)
+	$(info Successfully pushed all images.)
 
 ################################################################################
 # Self Documenting Commands                                                    #
