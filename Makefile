@@ -7,8 +7,9 @@
 IMAGE ?= dddecaf/postgres-base
 BUILD_COMMIT ?= $(shell git rev-parse HEAD)
 SHORT_COMMIT ?= $(shell git rev-parse --short HEAD)
-BUILD_TIMESTAMP ?= $(shell date --utc --iso-8601=seconds)
-BUILD_DATE ?= $(shell date --utc --iso-8601=date)
+# Full timestamp in UTC. Format corresponds to ISO-8601 but Unix compatible.
+BUILD_TIMESTAMP ?= $(shell date -u +%Y-%m-%dT%T+00:00)
+BUILD_DATE ?= $(shell date -u +%Y-%m-%d)
 ALPINE_TAG := alpine_${BUILD_DATE}_${SHORT_COMMIT}
 ALPINE_COMPILER_TAG := alpine-compiler_${BUILD_DATE}_${SHORT_COMMIT}
 
