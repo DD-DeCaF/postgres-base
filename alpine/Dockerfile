@@ -18,14 +18,12 @@ FROM dddecaf/wsgi-base:${BASE_TAG}
 
 ARG BASE_TAG=alpine
 ARG BUILD_COMMIT
-ARG BUILD_TIMESTAMP
 
 LABEL dk.dtu.biosustain.postgres-base.alpine.vendor="Novo Nordisk Foundation \
 Center for Biosustainability, Technical University of Denmark" \
     maintainer="niso@biosustain.dtu.dk" \
     dk.dtu.biosustain.postgres-base.alpine.build.base-tag="${BASE_TAG}" \
-    dk.dtu.biosustain.postgres-base.alpine.build.commit="${BUILD_COMMIT}" \
-    dk.dtu.biosustain.postgres-base.alpine.build.timestamp="${BUILD_TIMESTAMP}"
+    dk.dtu.biosustain.postgres-base.alpine.build.commit="${BUILD_COMMIT}"
 
 COPY sql-requirements.in ./
 

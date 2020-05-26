@@ -7,8 +7,6 @@
 IMAGE ?= dddecaf/postgres-base
 BUILD_COMMIT ?= $(shell git rev-parse HEAD)
 SHORT_COMMIT ?= $(shell git rev-parse --short HEAD)
-# Full timestamp in UTC. Format corresponds to ISO-8601 but Unix compatible.
-BUILD_TIMESTAMP ?= $(shell date -u +%Y-%m-%dT%T+00:00)
 BUILD_DATE ?= $(shell date -u +%Y-%m-%d)
 ALPINE_TAG := alpine_${BUILD_DATE}_${SHORT_COMMIT}
 ALPINE_COMPILER_TAG := alpine-compiler_${BUILD_DATE}_${SHORT_COMMIT}
@@ -20,20 +18,20 @@ ALPINE_COMPILER_TAG := alpine-compiler_${BUILD_DATE}_${SHORT_COMMIT}
 ## Build the Alpine Linux base image.
 build-alpine:
 	docker pull dddecaf/tag-spy:latest
-	$(eval ALPINE_BASE_TAG := $(shell docker run --rm dddecaf/tag-spy:latest tag-spy dddecaf/wsgi-base alpine dk.dtu.biosustain.wsgi-base.alpine.build.timestamp))
+	$(eval ALPINE_BASE_TAG := $(shell docker run --rm dddecaf/tag-spy:latest tag-spy dddecaf/wsgi-base alpine))
 	docker pull dddecaf/wsgi-base:$(ALPINE_BASE_TAG)
-	docker build --build-arg BASE_TAG=$(ALPINE_BASE_TAG) \
+	docker build \
+		--build-arg BASE_TAG=$(ALPINE_BASE_TAG) \
 		--build-arg BUILD_COMMIT=$(BUILD_COMMIT) \
-		--build-arg BUILD_TIMESTAMP=$(BUILD_TIMESTAMP) \
 		--tag $(IMAGE):alpine \
 		--tag $(IMAGE):$(ALPINE_TAG) \
 		./alpine
 
 ## Build the Alpine Linux compiler image.
 build-alpine-compiler:
-	docker build --build-arg BASE_TAG=$(ALPINE_TAG) \
+	docker build \
+		--build-arg BASE_TAG=$(ALPINE_TAG) \
 		--build-arg BUILD_COMMIT=$(BUILD_COMMIT) \
-		--build-arg BUILD_TIMESTAMP=$(BUILD_TIMESTAMP) \
 		--tag $(IMAGE):alpine-compiler \
 		--tag $(IMAGE):$(ALPINE_COMPILER_TAG) \
 		./alpine-compiler
