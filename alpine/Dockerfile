@@ -20,10 +20,10 @@ ARG BASE_TAG=alpine
 ARG BUILD_COMMIT
 
 LABEL dk.dtu.biosustain.postgres-base.alpine.vendor="Novo Nordisk Foundation \
-Center for Biosustainability, Technical University of Denmark" \
-    maintainer="niso@biosustain.dtu.dk" \
-    dk.dtu.biosustain.postgres-base.alpine.build.base-tag="${BASE_TAG}" \
-    dk.dtu.biosustain.postgres-base.alpine.build.commit="${BUILD_COMMIT}"
+Center for Biosustainability, Technical University of Denmark"
+LABEL maintainer="niso@biosustain.dtu.dk"
+LABEL dk.dtu.biosustain.postgres-base.alpine.build.base-tag="${BASE_TAG}"
+LABEL dk.dtu.biosustain.postgres-base.alpine.build.commit="${BUILD_COMMIT}"
 
 COPY sql-requirements.in ./
 

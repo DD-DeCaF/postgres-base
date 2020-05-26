@@ -20,10 +20,10 @@ ARG BASE_TAG=alpine
 ARG BUILD_COMMIT
 
 LABEL dk.dtu.biosustain.postgres-base.alpine-compiler.vendor="Novo Nordisk Foundation \
-Center for Biosustainability, Technical University of Denmark" \
-    maintainer="niso@biosustain.dtu.dk" \
-    dk.dtu.biosustain.postgres-base.alpine.build.base-tag="${BASE_TAG}" \
-    dk.dtu.biosustain.postgres-base.alpine-compiler.build.commit="${BUILD_COMMIT}"
+Center for Biosustainability, Technical University of Denmark"
+LABEL maintainer="niso@biosustain.dtu.dk"
+LABEL dk.dtu.biosustain.postgres-base.alpine-compiler.build.base-tag="${BASE_TAG}"
+LABEL dk.dtu.biosustain.postgres-base.alpine-compiler.build.commit="${BUILD_COMMIT}"
 
 RUN set -eux \
     # Install build tools. These can be required for the `pip-compile` step in
